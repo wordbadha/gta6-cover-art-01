@@ -1,0 +1,171 @@
+@font-face {
+  font-family: 'Anton';
+  src: url('./fonts/Anton-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background: #12081c;
+  color: #f4eef7;
+  font: 15px/1.45 system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 20px;
+  background: linear-gradient(90deg, #2b0a3d, #7a1048 55%, #ff6a3d);
+  border-bottom: 3px solid #ffd166;
+}
+
+.brand { font-family: 'Anton', system-ui, sans-serif; font-size: 22px; letter-spacing: 1px; }
+.brand em { font-style: normal; color: #ffd166; }
+.brand-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  margin-right: 8px;
+  background: #ffd166;
+  color: #2b0a3d;
+  border-radius: 6px;
+  font-size: 15px;
+  vertical-align: -6px;
+}
+.topnote { font-size: 13px; opacity: 0.92; }
+
+.app {
+  display: flex;
+  gap: 28px;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 24px;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 320px;
+  flex: 0 0 320px;
+  padding: 18px;
+  background: #1e0f2a;
+  border: 1px solid #4a2358;
+  border-radius: 14px;
+}
+.controls h1 { margin: 0; font-family: 'Anton', system-ui, sans-serif; font-size: 26px; letter-spacing: 1px; color: #ffd166; }
+.lede { margin: 0; color: #cdbfd6; }
+
+.group {
+  margin: 0;
+  padding: 12px;
+  border: 1px solid #4a2358;
+  border-radius: 10px;
+}
+.group legend { font-weight: 700; color: #ff8fb0; padding: 0 6px; }
+
+label { display: flex; flex-direction: column; gap: 6px; font-weight: 600; font-size: 13px; }
+label.check { flex-direction: row; align-items: center; gap: 8px; }
+input[type=text] {
+  font: inherit;
+  padding: 9px 10px;
+  color: #f4eef7;
+  background: #2b1538;
+  border: 1px solid #6b3a7d;
+  border-radius: 8px;
+}
+input[type=text]:focus { outline: 2px solid #ffd166; outline-offset: 1px; }
+input[type=range] { width: 100%; accent-color: #ff6a3d; }
+input[type=file] { display: none; }
+
+.file-btn, button {
+  font: inherit;
+  font-weight: 700;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 8px;
+  background: #ff6a3d;
+  color: #1e0f2a;
+  cursor: pointer;
+  text-align: center;
+}
+.file-btn:hover, button:hover { filter: brightness(1.12); }
+button:focus-visible, .file-btn:focus-visible, input:focus-visible { outline: 2px solid #7df0d4; outline-offset: 2px; }
+button.ghost { background: #2b1538; color: #ffd166; border: 1px solid #6b3a7d; }
+.surprise { width: 100%; margin-top: 10px; background: #2b1538; color: #7df0d4; border: 1px dashed #2f7d6b; }
+
+.btn-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn-row button { background: #2b1538; color: #f4eef7; border: 1px solid #6b3a7d; padding: 8px 10px; font-size: 13px; }
+.btn-row button.on { background: #ffd166; color: #2b0a3d; border-color: #ffd166; }
+
+.samples { display: flex; gap: 8px; margin-top: 10px; }
+.samples button { flex: 1; background: #2b1538; color: #7df0d4; border: 1px solid #2f7d6b; font-size: 13px; }
+
+.slots { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; min-height: 8px; }
+.slots:empty { display: none; }
+.slot {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  border: 2px solid #6b3a7d;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #2b1538;
+}
+.slot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.slot.in-panel { border-color: #ffd166; }
+.slot .slot-tag {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(18, 8, 28, 0.85);
+  color: #ffd166;
+  font-size: 10px;
+  font-weight: 700;
+  text-align: center;
+  padding: 1px 0;
+}
+.hint { margin: 8px 0 0; font-size: 12.5px; color: #a793b0; font-weight: 400; }
+
+.export {
+  padding: 14px;
+  font-size: 17px;
+  background: linear-gradient(90deg, #ffd166, #ff6a3d);
+  color: #2b0a3d;
+}
+#status { margin: 0; min-height: 20px; color: #7df0d4; font-size: 13px; }
+
+.stage { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.stage canvas {
+  width: min(72vh, 62vw);
+  height: auto;
+  border: 3px solid #ffd166;
+  border-radius: 6px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+  cursor: grab;
+  touch-action: none;
+}
+.stage canvas:active { cursor: grabbing; }
+.stage-note { margin: 0; color: #a793b0; font-size: 13px; }
+
+/* Screenshot scenes: cover alone, full frame. */
+body.shot-cover .topbar, body.shot-cover .controls, body.shot-cover .stage-note { display: none; }
+body.shot-cover .app { padding: 0; }
+body.shot-cover .stage { width: 100vw; }
+body.shot-cover .stage canvas { width: 100vw; height: 100vh; border: 0; border-radius: 0; box-shadow: none; object-fit: fill; }
+
+@media (max-width: 900px) {
+  .app { flex-direction: column; align-items: center; }
+  .controls { width: min(94vw, 480px); flex-basis: auto; }
+  .stage canvas { width: min(94vw, 72vh); }
+}

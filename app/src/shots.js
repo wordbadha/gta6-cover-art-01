@@ -1,24 +1,28 @@
-// Fixed scenes for screenshots: ?shot=cover shows the cover alone at its export
-// size, ?shot=editor shows the page with photos loaded. `photo` names one sample
-// per panel (comma separated), `caption` the title, `subtitle` the subtitle,
-// `layout`, `size` and `grade` pick the cover. window.__shotReady is set once
-// the fonts are in and the scene has painted twice.
-export async function runShot(shot, query, setup) {
+// Fixed scenes for screenshots: ?shot=cover shows the exported cover alone,
+// ?shot=editor shows the app in the browser with photos loaded. The query
+// picks the layout, grade, size, caption and sample photos; window.__shotReady
+// is set once the scene has painted, so a headless browser can wait on it.
+
+/**
+ * Reads a scene from the query string and applies it through the editor's
+ * scene API, then marks the shot ready.
+ */
+export async function runShot(shot, query, api) {
   if (shot === 'cover') document.body.classList.add('shot-cover');
-  const photos = (query.get('photo') ?? 'pier').split(',').map((s) => s.trim()).filter(Boolean);
-  await setup({
-    shot,
-    layout: query.get('layout') ?? 'vice-grid',
-    size: query.get('size') ?? 'square',
-    grade: query.get('grade') ?? 'vice-sunset',
-    title: query.get('caption') ?? 'Vice Nights',
-    subtitle: query.get('subtitle') ?? 'Neon Shore · Launch Week',
-    photos,
-  });
-  if (document.fonts) {
-    try { await document.fonts.load('40px Anton'); await document.fonts.ready; } catch { /* fall back to system sans */ }
-  }
-  await new Promise((resolve) => {
-    requestAnimationFrame(() => requestAnimationFrame(() => { window.__shotReady = true; resolve(); }));
-  });
+  const photos = (query.get('photos') || 'boulevard,pier').split(',').map((s) => s.trim()).filter(Boolean);
+  const patch = {};
+  if (query.get('layout')) patch.layout = query.get('layout');
+  if (query.get('grade')) patch.grade = query.get('grade');
+  if (query.get('size')) patch.size = query.get('size');
+  if (query.get('title') !== null) patch.title = query.get('title');
+  if (query.get('subtitle') !== null) patch.subtitle = query.get('subtitle');
+  if (query.get('titlePos')) patch.titlePos = query.get('titlePos');
+  patch.frame = query.get('frame') !== '0';
+  patch.grain = query.get('grain') !== '0';
+  patch.vignette = query.get('vignette') !== '0';
+  patch.halftone = query.get('halftone') === '1';
+  await api.applyScene({ patch, photos });
+  // Two frames so the canvas paint and the web fonts have landed.
+  await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+  window.__shotReady = true;
 }
